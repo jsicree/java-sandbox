@@ -1,7 +1,7 @@
 /**
  * 
  */
-package joe.sandbox.performance;
+package joe.sandbox.perfapp;
 
 /**
  * @author joseph_sicree
