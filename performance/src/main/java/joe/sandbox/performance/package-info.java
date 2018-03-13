@@ -5,4 +5,4 @@
  * @author joseph_sicree
  *
  */
-package joe.sandbox.perfapp;
+package joe.sandbox.performance;
