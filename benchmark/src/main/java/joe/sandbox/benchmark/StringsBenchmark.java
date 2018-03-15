@@ -31,9 +31,6 @@
 
 package joe.sandbox.benchmark;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -53,42 +50,26 @@ import org.openjdk.jmh.annotations.Warmup;
 
 
 
-public class CollectionsBenchmark {
+public class StringsBenchmark {
 	
 	
 	@State(Scope.Benchmark)
 	public static class MyState {
 		
+		public String sourceString = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+		
 		public int[] indexArray;
-		public ArrayList<String> arrayList = new ArrayList<String>();
-    	public LinkedList<String> linkedList = new LinkedList<String>();
-    	public HashMap<String, String> hashMap = new HashMap<String, String>();
 
-    	@Param({"250","500","750","1000"})
-    	public int listSize;
+    	@Param({"5","10","15"})
+    	public int wordSize;
 
 		
 		@Setup(Level.Trial)
 		public void setup() {
 			System.out.println("In Setup");
-			arrayList.clear();
-	    	linkedList.clear();
-	    	hashMap.clear();
-
-	    	Random r = new Random();
-			indexArray = r.ints(listSize,0,listSize).toArray();
 			
-	    	for (int i = 1; i <= listSize; i++) {
-				arrayList.add("Element " + i);				
-			}
-
-	    	for (int i = 1; i <= listSize; i++) {
-				linkedList.add("Element " + i);				
-			}
-
-	    	for (int i = 1; i <= listSize; i++) {
-				hashMap.put(("Element " + i),("Element " + i));				
-			}
+			Random r = new Random();
+			indexArray = r.ints(sourceString.length(),0,sourceString.length()).toArray();
 	    	
 		}
 
@@ -103,38 +84,28 @@ public class CollectionsBenchmark {
     @Fork(value = 5)
     @Warmup(iterations = 2)
     @Measurement(iterations = 10)
-    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    public void arrayListIndexOfBenchmark(MyState state) {
-
-    	for (int i = 0; i < 100; i++) {
-    		state.arrayList.indexOf("Element " + state.indexArray[i]);				
+    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    public int StringAppendBenchmark(MyState state) {
+    	String s = "";
+    	for (int i = 0; i < state.wordSize; i++) {
+    		s = s + state.sourceString.charAt(state.indexArray[i]);				
 		}
     	
+    	return s.length();
     }
 
     @Benchmark
     @Fork(value = 5)
     @Warmup(iterations = 2)
     @Measurement(iterations = 10)
-    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    public void linkedListIndexOfBenchmark(MyState state) {
-    	for (int i = 0; i < 100; i++) {
-			state.linkedList.indexOf("Element " + state.indexArray[i]);				
-		}
-    }
-
-    @Benchmark
-    @Fork(value = 5)
-    @Warmup(iterations = 2)
-    @Measurement(iterations = 10)
-    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    public void hashMapGetBenchmark(MyState state) {
-
-    	for (int i = 0; i < 100; i++) {
-    		state.hashMap.get("Element " + state.indexArray[i]);				
+    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    public int StringBufferBenchmark(MyState state) {
+    	StringBuffer sbuff = new StringBuffer("");
+    	for (int i = 0; i < state.wordSize; i++) {
+    		sbuff.append(state.sourceString.charAt(state.indexArray[i]));				
 		}
     	
+    	return sbuff.length();
     }
-    
-    
+
 }
