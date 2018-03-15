@@ -1,5 +1,3 @@
-Welcome to the java-sandbox repository. The repository has a number of Maven projects.
-
 ### benchmark
 Sample benchmarks using the Java Microbenchmark Harness (JMH).
 
