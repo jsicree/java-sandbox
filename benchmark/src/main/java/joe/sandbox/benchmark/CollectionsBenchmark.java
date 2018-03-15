@@ -65,7 +65,7 @@ public class CollectionsBenchmark {
     	public HashMap<String, String> hashMap = new HashMap<String, String>();
 
     	@Param({"250","500","750","1000"})
-    	public int iterations;
+    	public int listSize;
 
 		
 		@Setup(Level.Trial)
@@ -76,17 +76,17 @@ public class CollectionsBenchmark {
 	    	hashMap.clear();
 
 	    	Random r = new Random();
-			indexArray = r.ints(10000,0,1000).toArray();
+			indexArray = r.ints(listSize,0,listSize).toArray();
 			
-	    	for (int i = 1; i <= 1000; i++) {
+	    	for (int i = 1; i <= listSize; i++) {
 				arrayList.add("Element " + i);				
 			}
 
-	    	for (int i = 1; i <= 1000; i++) {
+	    	for (int i = 1; i <= listSize; i++) {
 				linkedList.add("Element " + i);				
 			}
 
-	    	for (int i = 1; i <= 1000; i++) {
+	    	for (int i = 1; i <= listSize; i++) {
 				hashMap.put(("Element " + i),("Element " + i));				
 			}
 	    	
@@ -106,7 +106,7 @@ public class CollectionsBenchmark {
     @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void arrayListIndexOfBenchmark(MyState state) {
 
-    	for (int i = 0; i < state.iterations; i++) {
+    	for (int i = 0; i < 100; i++) {
     		state.arrayList.indexOf("Element " + state.indexArray[i]);				
 		}
     	
@@ -118,7 +118,7 @@ public class CollectionsBenchmark {
     @Measurement(iterations = 10)
     @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void linkedListIndexOfBenchmark(MyState state) {
-    	for (int i = 0; i < state.iterations; i++) {
+    	for (int i = 0; i < 100; i++) {
 			state.linkedList.indexOf("Element " + state.indexArray[i]);				
 		}
     }
@@ -130,7 +130,7 @@ public class CollectionsBenchmark {
     @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void hashMapGetBenchmark(MyState state) {
 
-    	for (int i = 0; i < state.iterations; i++) {
+    	for (int i = 0; i < 100; i++) {
     		state.hashMap.get("Element " + state.indexArray[i]);				
 		}
     	
