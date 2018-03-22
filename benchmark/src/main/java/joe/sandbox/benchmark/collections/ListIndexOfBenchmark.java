@@ -24,7 +24,7 @@ import org.openjdk.jmh.annotations.Warmup;
 
 
 
-public class ListBenchmark {
+public class ListIndexOfBenchmark {
 	
 	
 	@State(Scope.Benchmark)

@@ -20,7 +20,7 @@ import org.openjdk.jmh.annotations.Warmup;
 
 
 
-public class MapBenchmark {
+public class MapGetBenchmark {
 	
 	
 	@State(Scope.Benchmark)
